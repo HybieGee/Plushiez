@@ -1,6 +1,6 @@
 <div class="collection-page py-xl">
   <div class="container">
-    {%comment%} Collection Header %endcomment%}
+    {% comment %} Collection Header %endcomment%}
     <div class="collection-header text-center mb-xl">
       <h1 class="collection-title">{{ collection.title }}</h1>
       {% if collection.description != blank %}
@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    {%comment%} Products Grid %endcomment%}
+    {% comment %} Products Grid %endcomment%}
     <div class="collection-products">
       {% paginate collection.products by 12 %}
         {% if collection.products.size > 0 %}
@@ -22,7 +22,7 @@
             {% for product in collection.products %}
               <div class="product-card card">
                 <a href="{{ product.url }}" class="product-card-link">
-                  {%comment%} Product Image %endcomment%}
+                  {% comment %} Product Image %endcomment%}
                   <div class="product-card-image">
                     {% if product.featured_image %}
                       <img
@@ -44,12 +44,12 @@
                       </div>
                     {% endif %}
 
-                    {%comment%} Sale Badge %endcomment%}
+                    {% comment %} Sale Badge %endcomment%}
                     {% if product.compare_at_price > product.price %}
                       <div class="sale-badge">Sale</div>
                     {% endif %}
 
-                    {%comment%} Quick Add Badge %endcomment%}
+                    {% comment %} Quick Add Badge %endcomment%}
                     <div class="product-card-badge">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1"></circle>
@@ -59,7 +59,7 @@
                     </div>
                   </div>
 
-                  {%comment%} Product Info %endcomment%}
+                  {% comment %} Product Info %endcomment%}
                   <div class="product-card-info card-body">
                     <h3 class="product-card-title">{{ product.title }}</h3>
 
@@ -72,7 +72,7 @@
                       {% endif %}
                     </div>
 
-                    {%comment%} Product Tags/Categories %endcomment%}
+                    {% comment %} Product Tags/Categories %endcomment%}
                     {% if product.tags.size > 0 %}
                       <div class="product-card-tags">
                         {% for tag in product.tags limit: 2 %}
@@ -86,7 +86,7 @@
             {% endfor %}
           </div>
 
-          {%comment%} Pagination %endcomment%}
+          {% comment %} Pagination %endcomment%}
           {% if paginate.pages > 1 %}
             <div class="pagination">
               {{ paginate | default_pagination }}

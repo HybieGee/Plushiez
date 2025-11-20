@@ -1,6 +1,6 @@
 <div class="product-page">
   <div class="product-container">
-    {%comment%} Product Images Gallery %endcomment%}
+    {% comment %} Product Images Gallery %endcomment%}
     <div class="product-gallery">
       <div class="product-main-image">
         {% if product.featured_image %}
@@ -34,7 +34,7 @@
       {% endif %}
     </div>
 
-    {%comment%} Product Info %endcomment%}
+    {% comment %} Product Info %endcomment%}
     <div class="product-info">
       <div class="product-breadcrumb">
         <a href="{{ routes.root_url }}">Home</a>
@@ -58,19 +58,19 @@
         {% endif %}
       </div>
 
-      {%comment%} Product Description %endcomment%}
+      {% comment %} Product Description %endcomment%}
       {% if product.description != blank %}
         <div class="product-description">
           {{ product.description }}
         </div>
       {% endif %}
 
-      {%comment%} Add to Cart Form %endcomment%}
+      {% comment %} Add to Cart Form %endcomment%}
       <div class="product-form">
         {% form 'product', product %}
           {% assign current_variant = product.selected_or_first_available_variant %}
 
-          {%comment%} Variant Selection %endcomment%}
+          {% comment %} Variant Selection %endcomment%}
           {% if product.variants.size > 1 %}
             <div class="product-variants">
               <label for="variant-select">Select Option:</label>
@@ -91,7 +91,7 @@
             <input type="hidden" name="id" value="{{ current_variant.id }}">
           {% endif %}
 
-          {%comment%} Quantity Selector %endcomment%}
+          {% comment %} Quantity Selector %endcomment%}
           <div class="product-quantity">
             <label for="quantity">Quantity:</label>
             <div class="quantity-selector">
@@ -108,7 +108,7 @@
             </div>
           </div>
 
-          {%comment%} Add to Cart Button %endcomment%}
+          {% comment %} Add to Cart Button %endcomment%}
           <button type="submit" class="btn btn-primary btn-add-to-cart" {% unless current_variant.available %}disabled{% endunless %}>
             {% if current_variant.available %}
               Add to Cart
@@ -117,12 +117,12 @@
             {% endif %}
           </button>
 
-          {%comment%} Buy Now Button %endcomment%}
+          {% comment %} Buy Now Button %endcomment%}
           {{ form | payment_button }}
         {% endform %}
       </div>
 
-      {%comment%} Product Meta %endcomment%}
+      {% comment %} Product Meta %endcomment%}
       <div class="product-meta">
         {% if product.vendor %}
           <div class="meta-item">

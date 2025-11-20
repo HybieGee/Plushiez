@@ -1,6 +1,6 @@
 <header class="site-header">
   <div class="header-container">
-    {%comment%} Logo/Brand %endcomment%}
+    {% comment %} Logo/Brand %endcomment%}
     <div class="header-logo">
       <a href="{{ routes.root_url }}">
         {% if section.settings.logo %}
@@ -11,21 +11,21 @@
       </a>
     </div>
 
-    {%comment%} Mobile Menu Toggle %endcomment%}
+    {% comment %} Mobile Menu Toggle %endcomment%}
     <button class="mobile-menu-toggle" aria-label="Toggle menu">
       <span></span>
       <span></span>
       <span></span>
     </button>
 
-    {%comment%} Main Navigation %endcomment%}
+    {% comment %} Main Navigation %endcomment%}
     <nav class="header-nav">
       {% for link in section.settings.menu.links %}
         <a href="{{ link.url }}" class="nav-link">{{ link.title }}</a>
       {% endfor %}
     </nav>
 
-    {%comment%} Header Icons (Search, Account, Cart) %endcomment%}
+    {% comment %} Header Icons (Search, Account, Cart) %endcomment%}
     <div class="header-icons">
       {% if section.settings.enable_search %}
         <button class="icon-btn" aria-label="Search">
@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  {%comment%} Mobile Menu %endcomment%}
+  {% comment %} Mobile Menu %endcomment%}
   <div class="mobile-menu">
     <nav class="mobile-nav">
       {% for link in section.settings.menu.links %}
