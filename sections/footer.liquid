@@ -1,13 +1,10 @@
 <footer class="site-footer">
   <div class="footer-container">
-    {% comment %} Footer Top Section %endcomment%}
     <div class="footer-top">
-      {% comment %} Brand Section %endcomment%}
       <div class="footer-brand">
         <h3 class="footer-logo">Plushiez</h3>
         <p class="footer-tagline">{{ section.settings.tagline }}</p>
 
-        {% comment %} Social Media Links %endcomment%}
         {% if section.settings.show_social %}
           <div class="footer-social">
             {% if section.settings.instagram_url != blank %}
@@ -45,7 +42,6 @@
         {% endif %}
       </div>
 
-      {% comment %} Quick Links %endcomment%}
       <div class="footer-links">
         <h4 class="footer-heading">Quick Links</h4>
         <nav class="footer-nav">
@@ -55,7 +51,6 @@
         </nav>
       </div>
 
-      {% comment %} Customer Care %endcomment%}
       <div class="footer-links">
         <h4 class="footer-heading">Customer Care</h4>
         <nav class="footer-nav">
@@ -65,7 +60,6 @@
         </nav>
       </div>
 
-      {% comment %} Newsletter Signup %endcomment%}
       {% if section.settings.show_newsletter %}
         <div class="footer-newsletter">
           <h4 class="footer-heading">Stay Updated</h4>
@@ -89,7 +83,6 @@
       {% endif %}
     </div>
 
-    {% comment %} Footer Bottom %endcomment%}
     <div class="footer-bottom">
       <p class="footer-copyright">
         &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
@@ -97,7 +90,6 @@
       <div class="footer-payment">
         <span class="payment-text">We accept:</span>
         <div class="payment-icons">
-          {% comment %} Payment icons would go here %endcomment%}
           <svg width="40" height="25" viewBox="0 0 40 25"><rect fill="#1434CB" width="40" height="25" rx="3"/></svg>
           <svg width="40" height="25" viewBox="0 0 40 25"><rect fill="#EB001B" width="40" height="25" rx="3"/></svg>
           <svg width="40" height="25" viewBox="0 0 40 25"><rect fill="#00579F" width="40" height="25" rx="3"/></svg>
