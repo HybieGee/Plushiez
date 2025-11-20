@@ -1,0 +1,290 @@
+<header class="site-header">
+  <div class="header-container">
+    {%comment%} Logo/Brand %endcomment%}
+    <div class="header-logo">
+      <a href="{{ routes.root_url }}">
+        {% if section.settings.logo %}
+          <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="logo-img">
+        {% else %}
+          <span class="logo-text">Plushiez</span>
+        {% endif %}
+      </a>
+    </div>
+
+    {%comment%} Mobile Menu Toggle %endcomment%}
+    <button class="mobile-menu-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    {%comment%} Main Navigation %endcomment%}
+    <nav class="header-nav">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}" class="nav-link">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+
+    {%comment%} Header Icons (Search, Account, Cart) %endcomment%}
+    <div class="header-icons">
+      {% if section.settings.enable_search %}
+        <button class="icon-btn" aria-label="Search">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      {% endif %}
+
+      {% if shop.customer_accounts_enabled %}
+        <a href="{{ routes.account_url }}" class="icon-btn" aria-label="Account">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+      {% endif %}
+
+      <a href="{{ routes.cart_url }}" class="icon-btn cart-btn" aria-label="Shopping Cart">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        {% if cart.item_count > 0 %}
+          <span class="cart-count">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+    </div>
+  </div>
+
+  {%comment%} Mobile Menu %endcomment%}
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}" class="mobile-nav-link">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</header>
+
+{% stylesheet %}
+  .site-header {
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-silver);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  .header-container {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: var(--spacing-sm) var(--page-margin);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+  }
+
+  /* Logo */
+  .header-logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .logo-text {
+    font-size: 1.75rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+  }
+
+  .logo-img {
+    height: 48px;
+    width: auto;
+  }
+
+  /* Navigation */
+  .header-nav {
+    display: none;
+    gap: var(--spacing-lg);
+  }
+
+  @media (min-width: 768px) {
+    .header-nav {
+      display: flex;
+    }
+  }
+
+  .nav-link {
+    color: var(--color-foreground);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+
+  .nav-link:hover {
+    color: var(--color-primary);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  /* Header Icons */
+  .header-icons {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: var(--color-foreground);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon-btn:hover {
+    background-color: var(--color-cloud);
+    color: var(--color-primary);
+  }
+
+  .cart-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Mobile Menu Toggle */
+  .mobile-menu-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  .mobile-menu-toggle span {
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-foreground);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-menu-toggle {
+      display: none;
+    }
+  }
+
+  /* Mobile Menu */
+  .mobile-menu {
+    display: none;
+    background-color: var(--color-background);
+    border-top: 1px solid var(--color-silver);
+  }
+
+  .mobile-menu.active {
+    display: block;
+  }
+
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-md) var(--page-margin);
+  }
+
+  .mobile-nav-link {
+    color: var(--color-foreground);
+    font-weight: 500;
+    font-size: 1.125rem;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-cloud);
+    transition: color 0.2s ease;
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--color-primary);
+  }
+{% endstylesheet %}
+
+<script>
+  // Mobile menu toggle
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    if (toggle && mobileMenu) {
+      toggle.addEventListener('click', function() {
+        mobileMenu.classList.toggle('active');
+        toggle.classList.toggle('active');
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_search",
+      "label": "Enable Search",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

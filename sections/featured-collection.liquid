@@ -1,0 +1,269 @@
+<div class="featured-collection py-2xl">
+  <div class="container">
+    <div class="section-header text-center mb-xl">
+      <h2>{{ section.settings.title }}</h2>
+      {% if section.settings.description != blank %}
+        <p class="section-description">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
+
+    {% if section.settings.collection != blank %}
+      <div class="product-grid">
+        {% for product in section.settings.collection.products limit: section.settings.products_to_show %}
+          <div class="product-card card">
+            <a href="{{ product.url }}" class="product-card-link">
+              {%comment%} Product Image %endcomment%}
+              <div class="product-card-image">
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 400 }}"
+                    srcset="{{ product.featured_image | image_url: width: 200 }} 200w,
+                            {{ product.featured_image | image_url: width: 400 }} 400w,
+                            {{ product.featured_image | image_url: width: 600 }} 600w"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    alt="{{ product.title }}"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <div class="product-card-placeholder">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                      <rect width="80" height="80" fill="var(--color-cloud)"/>
+                      <path d="M40 25L50 40H30L40 25Z" fill="var(--color-silver)"/>
+                      <circle cx="30" cy="30" r="5" fill="var(--color-silver)"/>
+                    </svg>
+                  </div>
+                {% endif %}
+
+                {%comment%} Quick Add Badge %endcomment%}
+                <div class="product-card-badge">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                  </svg>
+                </div>
+              </div>
+
+              {%comment%} Product Info %endcomment%}
+              <div class="product-card-info card-body">
+                <h3 class="product-card-title">{{ product.title }}</h3>
+
+                <div class="product-card-price">
+                  {% if product.compare_at_price > product.price %}
+                    <span class="price-sale">{{ product.price | money }}</span>
+                    <span class="price-compare">{{ product.compare_at_price | money }}</span>
+                  {% else %}
+                    <span class="price-regular">{{ product.price | money }}</span>
+                  {% endif %}
+                </div>
+
+                {%comment%} Product Tags/Categories %endcomment%}
+                {% if product.tags.size > 0 %}
+                  <div class="product-card-tags">
+                    {% for tag in product.tags limit: 2 %}
+                      <span class="product-tag">{{ tag }}</span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+
+      {%comment%} View All Button %endcomment%}
+      {% if section.settings.show_view_all %}
+        <div class="text-center mt-xl">
+          <a href="{{ section.settings.collection.url }}" class="btn btn-primary">
+            View All {{ section.settings.collection.title }}
+          </a>
+        </div>
+      {% endif %}
+    {% else %}
+      <p class="text-center">Please select a collection to display products.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .section-header {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .section-description {
+    font-size: 1.125rem;
+    color: var(--color-foreground);
+    opacity: 0.8;
+    max-width: 600px;
+    margin: var(--spacing-sm) auto 0;
+  }
+
+  /* Product Card */
+  .product-card {
+    position: relative;
+  }
+
+  .product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .product-card-image {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background-color: var(--color-cloud);
+    border-radius: var(--style-border-radius-cards) var(--style-border-radius-cards) 0 0;
+  }
+
+  .product-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover .product-card-image img {
+    transform: scale(1.05);
+  }
+
+  .product-card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Quick Add Badge */
+  .product-card-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+  }
+
+  .product-card:hover .product-card-badge {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Product Info */
+  .product-card-info {
+    padding: var(--spacing-md);
+  }
+
+  .product-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-noir);
+    margin-bottom: var(--spacing-xs);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-card-price {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .price-regular,
+  .price-sale {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .price-compare {
+    font-size: 0.875rem;
+    color: var(--color-foreground);
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+
+  /* Product Tags */
+  .product-card-tags {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+  }
+
+  .product-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--color-cloud);
+    color: var(--color-foreground);
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 640px) {
+    .product-card-info {
+      padding: var(--spacing-sm);
+    }
+
+    .product-card-title {
+      font-size: 0.9375rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Featured Products"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Section Description"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to Show",
+      "min": 4,
+      "max": 12,
+      "step": 2,
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show View All Button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}

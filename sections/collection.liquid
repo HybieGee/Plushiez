@@ -1,0 +1,214 @@
+<div class="collection-page py-xl">
+  <div class="container">
+    {%comment%} Collection Header %endcomment%}
+    <div class="collection-header text-center mb-xl">
+      <h1 class="collection-title">{{ collection.title }}</h1>
+      {% if collection.description != blank %}
+        <div class="collection-description">
+          {{ collection.description }}
+        </div>
+      {% endif %}
+
+      <div class="collection-info">
+        <span class="product-count">{{ collection.products_count }} Products</span>
+      </div>
+    </div>
+
+    {%comment%} Products Grid %endcomment%}
+    <div class="collection-products">
+      {% paginate collection.products by 12 %}
+        {% if collection.products.size > 0 %}
+          <div class="product-grid">
+            {% for product in collection.products %}
+              <div class="product-card card">
+                <a href="{{ product.url }}" class="product-card-link">
+                  {%comment%} Product Image %endcomment%}
+                  <div class="product-card-image">
+                    {% if product.featured_image %}
+                      <img
+                        src="{{ product.featured_image | image_url: width: 400 }}"
+                        srcset="{{ product.featured_image | image_url: width: 200 }} 200w,
+                                {{ product.featured_image | image_url: width: 400 }} 400w,
+                                {{ product.featured_image | image_url: width: 600 }} 600w"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        alt="{{ product.title }}"
+                        loading="lazy"
+                      >
+                    {% else %}
+                      <div class="product-card-placeholder">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                          <rect width="80" height="80" fill="var(--color-cloud)"/>
+                          <path d="M40 25L50 40H30L40 25Z" fill="var(--color-silver)"/>
+                          <circle cx="30" cy="30" r="5" fill="var(--color-silver)"/>
+                        </svg>
+                      </div>
+                    {% endif %}
+
+                    {%comment%} Sale Badge %endcomment%}
+                    {% if product.compare_at_price > product.price %}
+                      <div class="sale-badge">Sale</div>
+                    {% endif %}
+
+                    {%comment%} Quick Add Badge %endcomment%}
+                    <div class="product-card-badge">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                      </svg>
+                    </div>
+                  </div>
+
+                  {%comment%} Product Info %endcomment%}
+                  <div class="product-card-info card-body">
+                    <h3 class="product-card-title">{{ product.title }}</h3>
+
+                    <div class="product-card-price">
+                      {% if product.compare_at_price > product.price %}
+                        <span class="price-sale">{{ product.price | money }}</span>
+                        <span class="price-compare">{{ product.compare_at_price | money }}</span>
+                      {% else %}
+                        <span class="price-regular">{{ product.price | money }}</span>
+                      {% endif %}
+                    </div>
+
+                    {%comment%} Product Tags/Categories %endcomment%}
+                    {% if product.tags.size > 0 %}
+                      <div class="product-card-tags">
+                        {% for tag in product.tags limit: 2 %}
+                          <span class="product-tag">{{ tag }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+
+          {%comment%} Pagination %endcomment%}
+          {% if paginate.pages > 1 %}
+            <div class="pagination">
+              {{ paginate | default_pagination }}
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="empty-collection text-center">
+            <p>No products found in this collection.</p>
+            <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary">View All Products</a>
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .collection-header {
+    padding-bottom: var(--spacing-xl);
+  }
+
+  .collection-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .collection-description {
+    font-size: 1.125rem;
+    color: var(--color-foreground);
+    opacity: 0.8;
+    max-width: 700px;
+    margin: 0 auto var(--spacing-md);
+  }
+
+  .collection-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .product-count {
+    font-size: 0.9375rem;
+    color: var(--color-foreground);
+    opacity: 0.7;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-cloud);
+    border-radius: 20px;
+  }
+
+  /* Sale Badge */
+  .sale-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: white;
+    padding: 0.375rem 0.875rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    z-index: 1;
+  }
+
+  /* Empty Collection */
+  .empty-collection {
+    padding: var(--spacing-2xl) var(--spacing-md);
+  }
+
+  .empty-collection p {
+    font-size: 1.25rem;
+    color: var(--color-foreground);
+    opacity: 0.7;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  /* Pagination */
+  .pagination {
+    margin-top: var(--spacing-2xl);
+    text-align: center;
+  }
+
+  .pagination ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+  }
+
+  .pagination li {
+    display: inline;
+  }
+
+  .pagination a,
+  .pagination span {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: var(--style-border-radius-inputs);
+    text-decoration: none;
+    color: var(--color-foreground);
+    border: 1px solid var(--color-silver);
+    transition: all 0.2s ease;
+  }
+
+  .pagination a:hover {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+
+  .pagination .current {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: white;
+    border-color: transparent;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": []
+}
+{% endschema %}

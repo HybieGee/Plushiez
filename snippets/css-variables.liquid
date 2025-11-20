@@ -1,0 +1,44 @@
+{% style %}
+  {% # Loads all font variantions with display: swap %}
+  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
+  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+
+  :root {
+    --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
+    --font-primary--style: {{ settings.type_primary_font.style }};
+    --font-primary--weight: {{ settings.type_primary_font.weight }};
+    --page-width: {{ settings.max_page_width }};
+    --page-margin: {{ settings.min_page_margin }}px;
+
+    /* Plushiez Color Palette */
+    --color-background: {{ settings.background_color }};
+    --color-foreground: {{ settings.foreground_color }};
+    --color-primary: {{ settings.color_primary }};
+    --color-secondary: {{ settings.color_secondary }};
+    --color-accent: {{ settings.color_accent }};
+    --color-peachy: {{ settings.color_peachy }};
+    --color-cloud: {{ settings.color_cloud }};
+    --color-silver: {{ settings.color_silver }};
+    --color-noir: {{ settings.color_noir }};
+
+    /* Border Radius */
+    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    --style-border-radius-buttons: {{ settings.button_corner_radius }}px;
+    --style-border-radius-cards: 20px;
+
+    /* Shadows (soft, playful) */
+    --shadow-sm: 0 2px 8px rgba(255, 182, 200, 0.1);
+    --shadow-md: 0 4px 16px rgba(255, 182, 200, 0.15);
+    --shadow-lg: 0 8px 32px rgba(255, 182, 200, 0.2);
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-2xl: 4rem;
+  }
+{% endstyle %}
